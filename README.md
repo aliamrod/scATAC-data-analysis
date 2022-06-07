@@ -11,8 +11,8 @@ As a review,
       * Identifying cancer stem cells or infiltrating macrophages within a tumor sample.
       * Identifying novel cell subpopulations that are responsible for response to drug treatments (i.e. responders vs. resistant cells).
       * Identifying subpopulations of cells with variations in chromatin accessibility that can provide insight into developmental trajectories (i.e. brain development,          T-helper development, B-cell differentiation). 
-* scRNA-seq =>
-* variant effect =>
+* scRNA-seq => Single-cell RNA sequencing (scRNA-seq) can reveal complex and rare cell populations, uncover regulatory relationships between genes, and track the trajectories of distinct cell lineages in development. In contrast to bulk RNA-seq which relies on averaged gene expression from a population of cells to reveal RNA presence as well as quantity in a sample of cells during time of measurement, scRNA-seq offers an unbiased apporach to investigate the cellular heterogeneity and dynamics of a biological system.
+* variant effect => Gene variant conforms to a permanent change in the DNA sequence that comprises a gene. 
 * caQTL mapping => chromatin accessibility quatitative trait loci (caQTLs) help identify GWAS loci that may alter GWAS traits by modulating chromatin structure, but caQTL have been identified in a limited set of tissues [2]. (1) caQTLs are highly cell-type specific, (2) caQTLs have higher effect sizes on average than eQTLs (expression quantitative trait loci), (3) caQTLs can be used to identify causal variants, cell types, and mechanisms of non-coding GWAS loci. 
 
 
