@@ -6,7 +6,8 @@ In the following repository, 1_scATAC_analysis.r includes scripts for the single
 
 
 As a review, 
-* scATAC-seq => Single-cell sequencing assay for transposase-accessible chromatin (scATAC-seq) can be used to identify cell subpopulations with different chromatin accessibility profiles within complex samples, eliminating the need for isolation strategies like FACS or magnetic sorting that could alter the biology due to sample manipulation. For instance:
+* scATAC-seq => Single-cell sequencing assay for transposase-accessible chromatin (scATAC-seq) can be used to identify cell subpopulations with different chromatin accessibility profiles within complex samples, eliminating the need for isolation strategies like FACS or magnetic sorting that could alter the biology due to sample manipulation.
+*For instance:
       * Identifying cancer stem cells or infiltrating macrophages within a tumor sample.
       * Identifying novel cell subpopulations that are responsible for response to drug treatments (i.e. responders vs. resistant cells).
       * Identifying subpopulations of cells with variations in chromatin accessibility that can provide insight into developmental trajectories (i.e. brain development,          T-helper development, B-cell differentiation). 
