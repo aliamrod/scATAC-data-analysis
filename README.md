@@ -72,8 +72,7 @@ The scRNA data generated in a previous study in the same system as snATAC (Wirka
 
 ## 5. Bulk data process (bulk ATAC-seq, superenhancer analysis with H3K27ac ChIP-seq).
 The cmd lines for processing bulk data can be found in 5_bulkDataAnalysis/bulkdata_process.sh. All the related scripts and configuration files can be found in the same folder.
------------------------------------------
 
-References.
+### References.
 [1]
 [2] Currin KW, Erdos MR, Narisu N, Rai V et al. "Genetic effects on liver chromatin accessibility identify disease regulatory variants". _Am J Hum Genet_. 2021 Jul. Date of Access: 07 June, 2022.
