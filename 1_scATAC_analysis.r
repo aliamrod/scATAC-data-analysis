@@ -1,3 +1,9 @@
+# Open terminal and enter the following command-line statements:
+# module purge && module load shared slurmm python/3.7.x-anaconda
+# module load R/4.1.1-gccmkl
+# module load hdf5_18/1.8.17
+# module load gcc/8.3.0
+
 # scATAC data analysis pipeline (integrates ArchR, v1.0.1)
 if (!requireNamespace("devtools", quietly = TRUE)) install.packages("devtools")
 if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
@@ -51,87 +57,12 @@ p <- ggpoint(
   xlabel = "Log10 Unique Fragments", 
   ylabel = "TSS Enrichment", 
   xlim = c(log10(500), quantile(df[,1], probs = 0.99)),
-  ylim = 
+  ylim = c(0, quantile(df[,2], probs = 0.99))
+  ) + geom_hline(yintercept = 4, lty = "dashed") + geom_vlin(xintercept = 3, lty = "dashed")
+plotPDF(p, name = "TSS-vs-Frags.pdf", ArchRProf = proj_CAD_1, addDOC = FALSE)
   
   
   //////////////////////////
 
 
-    xlim = c(log10(500), quantile(df[,1], probs = 0.99)),
-    ylim = c(0, quantile(df[,2], probs = 0.99))
-) + geom_hline(yintercept = 4, lty = "dashed") + geom_vline(xintercept = 3, lty = "dashed")
-plotPDF(p, name = "TSS-vs-Frags.pdf", ArchRProj = proj_CAD_1, addDOC = FALSE)
-
-p1 <- plotGroups(
-    ArchRProj = proj_CAD_1, 
-    groupBy = "Sample", 
-    colorBy = "cellColData", 
-    name = "TSSEnrichment",
-    plotAs = "ridges"
-   )
-p2 <- plotGroups(
-    ArchRProj = proj_CAD_1, 
-    groupBy = "Sample", 
-    colorBy = "cellColData", 
-    name = "TSSEnrichment",
-    plotAs = "violin",
-    alpha = 0.4,
-    addBoxPlot = TRUE
-   )
-p3 <- plotGroups(
-    ArchRProj = proj_CAD_1, 
-    groupBy = "Sample", 
-    colorBy = "cellColData", 
-    name = "log10(nFrags)",
-    plotAs = "ridges"
-   )
-p4 <- plotGroups(
-    ArchRProj = proj_CAD_1, 
-    groupBy = "Sample", 
-    colorBy = "cellColData", 
-    name = "log10(nFrags)",
-    plotAs = "violin",
-    alpha = 0.4,
-    addBoxPlot = TRUE
-   )
-plotPDF(p1,p2,p3,p4, name = "QC-Sample-Statistics.pdf", ArchRProj = proj_CAD_1, addDOC = FALSE, width = 4, height = 4)
-
-p1 <- plotFragmentSizes(ArchRProj = proj_CAD_1)
-p2 <- plotTSSEnrichment(ArchRProj = proj_CAD_1)
-plotPDF(p1,p2, name = "QC-Sample-FragSizes-TSSProfile.pdf", ArchRProj = proj_CAD_1, addDOC = FALSE, width = 5, height = 5)
-
-p <- ggPoint(
-    x = df2[,"log10(nFrags)"], 
-    y = df2[,"TSSEnrichment"], 
-    colorDensity = TRUE,
-    continuousSet = "sambaNight",
-    xlabel = "Log10 Unique Fragments",
-    ylabel = "TSS Enrichment",
-    xlim = c(3, quantile(df2[,"log10(nFrags)"], probs = 0.99)),
-    ylim = c(4, quantile(df2[,"TSSEnrichment"], probs = 0.99))
-) + geom_hline(yintercept = 7, lty = "dashed") + geom_vline(xintercept = 4, lty = "dashed")
-plotPDF(p, name = "TSS-vs-Frags_cutoff.pdf", ArchRProj = proj_CAD_2, addDOC = FALSE)
-
-
-# filter cells
-idxPass <- which(proj_CAD_2$TSSEnrichment >= 7 & proj_CAD_2$nFrags >= 10000)
-proj_CAD_2 <- filterDoublets(proj_CAD_1,filterRatio=1.5)
-df2 <- getCellColData(proj_CAD_2,select = c("log10(nFrags)", "TSSEnrichment"))
-cellsPass <- proj_CAD_2$cellNames[idxPass]
-proj_CAD_2 <- proj_CAD_2[cellsPass, ]
-
-# dimensional reduction
-proj_CAD_2 <- addIterativeLSI(
-    ArchRProj = proj_CAD_2,
-    useMatrix = "TileMatrix", 
-    name = "IterativeLSI", 
-    iterations = 2, 
-    clusterParams = list( #See Seurat::FindClusters
-        resolution = c(0.2), 
-        sampleCells = 10000, 
-        n.start = 10
-    ), 
-    varFeatures = 25000, 
-    dimsToUse = 1:30,
-    seed=1,force=T
-)
+  
