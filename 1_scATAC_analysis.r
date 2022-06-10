@@ -1,8 +1,9 @@
 # Open terminal and enter the following command-line statements:
-# module purge && module load shared slurmm python/3.7.x-anaconda
-# module load R/4.1.1-gccmkl
-# module load hdf5_18/1.8.17
-# module load gcc/8.3.0
+# $ module purge && module load shared slurmm python/3.7.x-anaconda
+# $ module load R/4.1.1-gccmkl
+# $ module load hdf5_18/1.8.17
+# $ module load gcc/8.3.0
+# $ module load gsl/2.4
 
 # scATAC data analysis pipeline (integrates ArchR, v1.0.1)
 if (!requireNamespace("devtools", quietly = TRUE)) install.packages("devtools")
