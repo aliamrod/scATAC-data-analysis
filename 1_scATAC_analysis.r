@@ -1,3 +1,5 @@
+# Load required packages onto BioHPC.
+
 # Open terminal and enter the following command-line statements:
 # $ module purge && module load shared slurmm python/3.7.x-anaconda
 # $ module load R/4.1.1-gccmkl
@@ -26,16 +28,31 @@ inputFiles <- c(
   "fragments_104.tsv", "fragments_105.tsv", "fragments_106.tsv", "fragments_107.tsv")
 names(inputFiles) <- c("fragments_104", "fragments_105", "fragments_106", "fragments_107")
 
+## Setting default number of Parallel threads to 20. In Windows OS detection, parallel ArchRThread is set to 1. 
+addArchRThreads(threads = 1) 
+
 # Create ArchR object.
+# Now, we generate Arrow Files which take ~10-15 minutes. For each sample, this step will:
+# 1. Read accessible fragments from the provided input files.
+# 2. Calculate quality control (QC) information for each cell (i.e. TSS enrichment scores and nucleosome info). 
+# 3. Filter cells based on quality control parameters.
+# 4. Create a genome-wide TileMatrix using 500-bp bins.
+# 5. Create a GeneScoreMatrix using the custom ```geneAnnotation``` that was defined when we called ```archArchRGenome()```. 
 ArrowFiles <- createArrowFiles(
   inputFiles = inputFiles,
   sampleNames = names(inputFiles),
-  filterTSS = 4, # Do not set this too high due to notion that it can be adjusted to accordingly later.
-  filterFrags = 1000, 
+  minTSS = 4, # Do not set this too high due to notion that it can be adjusted to accordingly later.
+  minFrags = 1000, 
   addTileMat = TRUE,
   force = FALSE,
-  addGeneScoreMat = TRUE
+  addGeneScoreMat = TRUE,
+  cleanTmp = FALSE,
+  nChunk = 1, 
+  threads = 1, 
+  subThreading = TRUE
   )
+# > ArrowFiles
+
 projNEU1 <- ArchRProject(
   ArrowFiles = ArrowFiles,
   outputDirectory = "/work/Neuroinformatics_Core/s204365/ATACSeq_0001/output_dir", 
