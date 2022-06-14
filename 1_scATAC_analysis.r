@@ -1,31 +1,46 @@
 # Load required packages onto BioHPC.
 
 # Open terminal and enter the following command-line statements:
-# $ module purge && module load shared slurmm python/3.7.x-anaconda
+# $ module purge && module load shared slurm python/3.7.x-anaconda
 # $ module load R/4.1.1-gccmkl
 # $ module load hdf5_18/1.8.17
 # $ module load gcc/8.3.0
 # $ module load gsl/2.4
+
+# Open R/4.1.1-gccmkl module.
 # $ R
 
 # setwd(dir); specify a working directory. This may be from the root directory and transitioning up to current directory.
 setwd('/work/Neuroinformatics_Core/s204365/ATACSeq_0001')
 
-# scATAC data analysis pipeline (integrates ArchR, v1.0.1)
+# scATAC data analysis pipeline (integrates ArchR, v1.0.1)//Dependencies
 if (!requireNamespace("devtools", quietly = TRUE)) install.packages("devtools")
 if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
+install.packages("dplyr")
+
+library(dplyr)
 
 
 # install ArchR
 devtools::install_github("GreenleafLab/ArchR", ref="master", repos = BiocManager::repositories())
-library(ArchR) # version
+library(ArchR) # version 1.0.2
 ArchR::installExtraPackages()
 set.seed(1)
-addArchGenome("mm10") # Mus musculus (house mouse) genome assembly
+addArchRGenome("mm10") # Mus musculus (house mouse) genome assembly
 
 # Input data from 10X Cellranger-ATAC output
 # list fragment files:
+# The CellRanger-ATAC count pipeline outputs a BED-like tabular file, where each line represents a unique ATAC-seq fragment captured by the assay. 
+# Each fragment is created by two separate transposition events, which create the two ends of the observed fragment. Each unique fragment may generate multiple
+# duplicate reads. These duplicate reads are collapsed into a single fragment record.
+
+# Inspect fragment files in current directory. 
 fragment_tsv = list.files(pattern = ".tsv")
+
+# Utilize function, reformatFragmentFiles() to reformat CellRanger-derived fragment files for reading in createArrowFiles(). It will handle anomalies found that generate
+# errors in reading tabix bgzip'd fragment files.
+
+# ****reformatFragmentFiles(
 inputFiles <- c(
   "fragments_104.tsv", "fragments_105.tsv", "fragments_106.tsv", "fragments_107.tsv")
 names(inputFiles) <- c("fragments_104", "fragments_105", "fragments_106", "fragments_107")
