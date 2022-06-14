@@ -68,15 +68,10 @@ ArrowFiles <- createArrowFiles(
   threads = 1, 
   subThreading = TRUE
   )
-# > ArrowFiles
 
-projNEU1 <- ArchRProject(
-  ArrowFiles = ArrowFiles,
-  outputDirectory = "/work/Neuroinformatics_Core/s204365/ATACSeq_0001/output_dir", 
-  copyArrows = TRUE # Boolean value indicating whether ArrowFiles should be copied into ```outputDirectory```. This is recommended so that if you have to modify the ArrowFiles, you have an original copy for later usage. 
-  )
+ArrowFiles # Inspect ArrowFiles object (character vector of ArrowFile paths). 
 
-  
+
 
 
 
