@@ -14,6 +14,8 @@ setwd('/work/Neuroinformatics_Core/s204365/ATACSeq_0001')
 # scATAC data analysis pipeline (integrates ArchR, v1.0.1)
 if (!requireNamespace("devtools", quietly = TRUE)) install.packages("devtools")
 if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
+
+
 # install ArchR
 devtools::install_github("GreenleafLab/ArchR", ref="master", repos = BiocManager::repositories())
 library(ArchR) # version
