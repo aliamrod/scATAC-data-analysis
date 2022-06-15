@@ -37,7 +37,7 @@ Variant Scoring (SVMpipeline)
 - plotnine v0.7
 - Two annotation data hg38.chrom.sizes
 
-## 1. Single Nucleus ATAC-seq (snATAC) Data Analysis
+## 1. Single Nucleus ATAC-seq (scATAC) Data Analysis
 -  basicQC
 -  cell filtering
 -  dimensional reduction
