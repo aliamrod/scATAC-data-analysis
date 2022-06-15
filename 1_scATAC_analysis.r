@@ -5,6 +5,7 @@
 # $ module load R/4.1.1-gccmkl
 # $ module load hdf5_18/1.8.17
 # $ module load gcc/8.3.0
+# $ module load htslib
 # $ module load gsl/2.4
 
 # Open R/4.1.1-gccmkl module.
