@@ -19,6 +19,8 @@ if (!requireNamespace("devtools", quietly = TRUE)) install.packages("devtools")
 if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
 install.packages("dplyr")
 
+library(devtools)
+library(BiocManager)
 library(dplyr)
 
 
