@@ -38,14 +38,22 @@ addArchRGenome("mm10") # Mus musculus (house mouse) genome assembly
 # duplicate reads. These duplicate reads are collapsed into a single fragment record.
 
 # Inspect fragment files in current directory. 
-fragment_tsv = list.files(pattern = ".tsv")
+fragment_tsv <- list.files(pattern = ".tsv")
 
 # Utilize function, reformatFragmentFiles() to reformat CellRanger-derived fragment files for reading in createArrowFiles(). It will handle anomalies found that generate
 # errors in reading tabix bgzip'd fragment files.
 
-# ****reformatFragmentFiles(
+# reformatFragmentFiles(): This function will help in reformatting Fragment Files for reading in createArrowFiles. It will handle odd anomalies found that 
+# cause errors in reading tabix bgzip'd fragment files. 
+
+# $ zgrep -v "^#" fragments_104.tsv.gz | gzip -c > fragments_104.comment_lines_removed.tsv.gz
+# $ zgrep -v "^#" fragments_105.tsv.gz | gzip -c > fragments_105.comments_removed.tsv.gz
+# $ zgrep -v "^#" fragments_106.tsv.gz | gzip -c > fragments_106.comments_removed.tsv.gz
+# $ zgrep -v "^#" fragments_107.tsv.gz | gzip -c > fragments_107.comments_removed.tsv.gz
+
+
 inputFiles <- c(
-  "fragments_104.tsv", "fragments_105.tsv", "fragments_106.tsv", "fragments_107.tsv")
+  "fragments_104copy.comments_removed-Reformat.tsv.gz", "fragments_105.tsv.gz", "fragments_106.tsv.gz", "fragments_107.tsv.gz")
 names(inputFiles) <- c("fragments_104", "fragments_105", "fragments_106", "fragments_107")
 
 ## Setting default number of Parallel threads to 20. In Windows OS detection, parallel ArchRThread is set to 1. 
