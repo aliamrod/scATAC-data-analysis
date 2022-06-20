@@ -1,18 +1,33 @@
 A. ***
 B. Per-cell quality control
-Strict quality control (QC) of scATAC-seq data is essential to remove the contribution of low-quality cells. In ArchR, we will consider three characteristics of the data:
+Strict quality control (QC) of scATAC-seq data is essential to remove the contribution of low-quality cells. In ArchR, we will consider three
+characteristics of the data:
+
 1. The number of unique nuclear fragments (i.e. not mapping to mitochondrial DNA). 
-2. The signal-to-background ratio; low signal-to-background ratio is often attributed to dead or dying cells which have de-chromatinized DNA which allows for random 
-   transposition events genome-wide.
-3. The fragment size distribution. Due to nucleosomal periodicity, we expect to see depletion of fragments that are the length of DNA wrapped around a nucleosome (~147 bp).
+2. The signal-to-background ratio; low signal-to-background ratio is often attributed to dead or dying cells which have de-chromatinized DNA which
+allows for random transposition events genome-wide.
+3. The fragment size distribution. Due to nucleosomal periodicity, we expect to see depletion of fragments that are the length of DNA wrapped
+around a nucleosome (~147 bp).
 
-The first metric, unique nuclear fragments, is relatively straightforward-- cells with very few usable fragments will not provide enough data to make useful interpretations
-and should therefore be excluded. The second metric, signal-to-background ratio, is calculated as the TSS enrichment score. Recall that the TSS enrichment score, or 
-Transcription Start Site Enrichment Score calculation is a signal to noise calculation. Traditional bulk ATAC-seq analysis has used this TSS enrichmnet score as part of standard workflow for the determination of signal-to-background. The TSS enrichment score essentially acts as a representative across the majority of cell types tested in both bulk ATAC-seq and scATAC-seq. The primary idea of the TSS enrichment score metric is that ATAC-seq data is universally enriched at gene TSS regions compared to other genomic regions, due to large protein complexes that bind to promoters. By looking at per-basepair accessibility centered at these TSS regions, we see a local enrichment relative to flanking regions (1900-2000 bp distal in both directions). The ratio between the peak of this enrichment (cetnered at the TSS) relative to these flanking regions represents the TSS enrichment score. 
-
-Traditionally, the per-base-pair accessibility is computed for each bulk ATAC-seq sample and then this profile is utilized to determine the TSS enrichment score. Performing this operation on a per-cell basis in scATAC-seq is relatively slower and computationally exhaustive/expensive. To accurately approximate the TSS enrichment score per single cell, we will count the average accessibility within a 50-bp region centered at each single-base TSS potiion and divide this by the average accessibility of the TSS flanking positions (+/- 1900 - 2000 bp). This approximation is highly correlated (R > 0.99) with the original method and values are close in magnitude. 
-
-The third metric, fragment size distribution, is generally less important but good to manually inspect. Due to the mannerisms in which DNA wraps around nucleosomes, we expect to see a nucleosomal periodicity in the distribution of fragment sizes in our data. These hills and valleys appear because fragments must span 0, 1, 2, etc. nucleosomes (Tn5 cannot cut DNA that is tightly wrapped around a nucleosome). By default in ArchR, pass-filter cells are identified as those cells having a TSS enrichment score greater than 4 and more than 1000 unique nuclear fragments. It is important to note that the actual numerica value of the TSS enrichment score depends on the set of TSSs used. The default value in ArchR were designed for human data and it may be important to change the default thresholds when running createArrowFiles().
+The first metric, unique nuclear fragments, is relatively straightforward-- cells with very few usable fragments will not provide enough data
+to make useful interpretations and should therefore be excluded. The second metric, signal-to-background ratio, is calculated as the TSS enrichment
+score. Recall that the TSS enrichment score, or Transcription Start Site Enrichment Score calculation is a signal to noise calculation.
+Traditional bulk ATAC-seq analysis has used this TSS enrichmnet score as part of standard workflow for the determination of signal-to-background.
+The TSS enrichment score essentially acts as a representative across the majority of cell types tested in both bulk ATAC-seq and scATAC-seq.
+The primary idea of the TSS enrichment score metric is that ATAC-seq data is universally enriched at gene TSS regions compared to other genomic
+regions, due to large protein complexes that bind to promoters. By looking at per-basepair accessibility centered at these TSS regions, we see a
+local enrichment relative to flanking regions (1900-2000 bp distal in both directions). The ratio between the peak of this enrichment (centered at
+the TSS) relative to these flanking regions represents the TSS enrichment score. Traditionally, the per-base-pair accessibility is computed for
+each bulk ATAC-seq sample and then this profile is utilized to determine the TSS enrichment score. Performing this operation on a per-cell basis
+in scATAC-seq is relatively slower and computationally exhaustive/expensive. To accurately approximate the TSS enrichment score per single cell,
+we will count the average accessibility within a 50-bp region centered at each single-base TSS potiion and divide this by the average accessibility
+of the TSS flanking positions (+/- 1900 - 2000 bp). This approximation is highly correlated (R > 0.99) with the original method and values are
+close in magnitude. The third metric, fragment size distribution, is generally less important but good to manually inspect. Due to the mannerisms
+in which DNA wraps around nucleosomes, we expect to see a nucleosomal periodicity in the distribution of fragment sizes in our data. These hills
+and valleys appear because fragments must span 0, 1, 2, etc. nucleosomes (Tn5 cannot cut DNA that is tightly wrapped around a nucleosome).
+By default in ArchR, pass-filter cells are identified as those cells having a TSS enrichment score greater than 4 and more than 1000 unique nuclear
+fragments. It is important to note that the actual numerica value of the TSS enrichment score depends on the set of TSSs used. The default value in
+ArchR were designed for human data and it may be important to change the default thresholds when running createArrowFiles().
 
 
 
