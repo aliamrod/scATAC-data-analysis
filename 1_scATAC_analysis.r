@@ -46,7 +46,7 @@ fragment_tsv <- list.files(pattern = ".tsv")
 # reformatFragmentFiles(): This function will help in reformatting Fragment Files for reading in createArrowFiles. It will handle odd anomalies found that 
 # cause errors in reading tabix bgzip'd fragment files. 
 
-# $ zgrep -v "^#" fragments_104.tsv.gz | gzip -c > fragments_104.comment_lines_removed.tsv.gz
+# $ zgrep -v "^#" fragments_104.tsv.gz | gzip -c > fragments_104.comments_removed.tsv.gz
 # $ zgrep -v "^#" fragments_105.tsv.gz | gzip -c > fragments_105.comments_removed.tsv.gz
 # $ zgrep -v "^#" fragments_106.tsv.gz | gzip -c > fragments_106.comments_removed.tsv.gz
 # $ zgrep -v "^#" fragments_107.tsv.gz | gzip -c > fragments_107.comments_removed.tsv.gz
