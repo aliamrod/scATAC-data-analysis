@@ -85,7 +85,7 @@ ArrowFiles # Inspect ArrowFiles object (character vector of ArrowFile paths).
 
 projCELL1 <- ArchRProject(
   ArrowFiles = ArrowFiles,
-  outputDirectory = "CELL1",
+  outputDirectory = "/work/Neuroinformatics_Core/s204365/ATACSeq_0001/outputDirectory",
   copyArrows = TRUE #Recommended so that if you modify Arrow files you have an original copy for later usage.
  )
 
