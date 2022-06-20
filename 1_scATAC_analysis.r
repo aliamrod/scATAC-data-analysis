@@ -87,11 +87,3 @@ ArrowFiles # Inspect ArrowFiles object (character vector of ArrowFile paths).
 
 
  
-# Strict quality control (QC) of scATAC-seq data is essential to remove the contribution of low-quality cells. In ArchR, we will consider 3 characterstics of data:
-# 1. The number of unique nuclear fragments (i.e. not mapping to mitochondrial DNA)
-# 2. The signal-to-background ratio. Low signal-to-background ratio is often attributed to dead or dying cells which have de-chromatinzed DNA which allows for random transposition genome-wide.
-# 3. The fragment size distribution. Due to nucleosomal periodicity, we expect to see depletion of fragments that are the length of DNA wrapped around a nucleosome (approximately 147 bp). 
-
-
-
-  
