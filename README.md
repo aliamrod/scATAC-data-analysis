@@ -62,7 +62,7 @@ The scRNA data generated in a previous study in the same system as snATAC (Wirka
 -  dimensional reduction
 -  cell clustering
 -  UMAP visualization
--  comparing the marker genes (Wirka et al., _Nat Med_ 2019, GSE131778) versus cell clustering
+-  comparing the marker genes versus cell clustering
 -  cell-type assignment based on marker genes
 -  check knowledge-based marker genes versus cell-type assignment
 
