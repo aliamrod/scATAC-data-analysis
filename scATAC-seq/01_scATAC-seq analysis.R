@@ -65,7 +65,7 @@ names(inputFiles) <- c("fragments_104", "fragments_105", "fragments_106", "fragm
 addArchRThreads(threads = 1) 
 
 # Create ArchR object.
-# Now, we generate Arrow Files which take ~10-15 minutes. For each sample, this step will:
+# Now, we generate Arrow Files which take ~10-15 minutes each file. For each sample, this step will:
 # 1. Read accessible fragments from the provided input files.
 # 2. Calculate quality control (QC) information for each cell (i.e. TSS enrichment scores and nucleosome info). 
 # 3. Filter cells based on quality control parameters.
