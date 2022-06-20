@@ -89,4 +89,6 @@ projCELL1 <- ArchRProject(
   copyArrows = TRUE #Recommended so that if you modify Arrow files you have an original copy for later usage.
  )
 
-
+# Session Information.
+Sys.Date()
+sessionInfo()
