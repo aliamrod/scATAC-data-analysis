@@ -66,12 +66,8 @@ The scRNA data generated in a previous study in the same system as snATAC (Wirka
 -  cell-type assignment based on marker genes
 -  check knowledge-based marker genes versus cell-type assignment
 
-## 3. Variant effect predictions using snATAC-seq peaks.
+## 3. Variant effect predictions using scATAC-seq peaks.
 
-
-
-## 5. Bulk data process (bulk ATAC-seq, superenhancer analysis with H3K27ac ChIP-seq).
-The cmd lines for processing bulk data can be found in 5_bulkDataAnalysis/bulkdata_process.sh. All the related scripts and configuration files can be found in the same folder.
 
 ### References.
 
