@@ -1,0 +1,15 @@
+A. ***
+B. Per-cell quality control
+Strict quality control (QC) of scATAC-seq data is essential to remove the contribution of low-quality cells. In ArchR, we will consider three characteristics of the data:
+1. The number of unique nuclear fragments (i.e. not mapping to mitochondrial DNA). 
+2. The signal-to-background ratio; low signal-to-background ratio is often attributed to dead or dying cells which have de-chromatinized DNA which allows for random 
+   transposition events genome-wide.
+3. The fragment size distribution. Due to nucleosomal periodicity, we expect to see depletion of fragments that are the length of DNA wrapped around a nucleosome (~147 bp).
+
+The first metric, unique nuclear fragments, is relatively straightforward-- cells with very few usable fragments will not provide enough data to make useful interpretations
+and should therefore be excluded. The second metric, signal-to-background ratio, is calculated as the TSS enrichment score. Recall that the TSS enrichment score, or 
+Transcription Start Site Enrichment Score calculation is a signal to noise calculation. Traditional bulk ATAC-seq analysis has used this TSS enrichmnet score as part of a 
+standard workflow for determination of signal-to-background. 
+
+
+
