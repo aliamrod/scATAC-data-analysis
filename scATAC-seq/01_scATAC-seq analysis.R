@@ -32,13 +32,10 @@ set.seed(1)
 addArchRGenome("mm10") # Mus musculus (house mouse) genome assembly
 
 # Input data from 10X Cellranger-ATAC output
-# list fragment files:
+# List fragment files:
 # The CellRanger-ATAC count pipeline outputs a BED-like tabular file, where each line represents a unique ATAC-seq fragment captured by the assay. 
 # Each fragment is created by two separate transposition events, which create the two ends of the observed fragment. Each unique fragment may generate multiple
 # duplicate reads. These duplicate reads are collapsed into a single fragment record.
-
-# Inspect fragment files in current directory. 
-fragment_tsv <- list.files(pattern = ".tsv")
 
 # Utilize function, reformatFragmentFiles() to reformat CellRanger-derived fragment files for reading in createArrowFiles(). It will handle anomalies found that generate
 # errors in reading tabix bgzip'd fragment files.
@@ -51,9 +48,18 @@ fragment_tsv <- list.files(pattern = ".tsv")
 # $ zgrep -v "^#" fragments_106.tsv.gz | gzip -c > fragments_106.comments_removed.tsv.gz
 # $ zgrep -v "^#" fragments_107.tsv.gz | gzip -c > fragments_107.comments_removed.tsv.gz
 
+reformatFragmentFiles("fragments_104_comments_removed.tsv.gz")
+reformatFragmentFiles("fragments_105_comments_removed.tsv.gz")
+reformatFragmentFiles("fragments_106_comments_removed.tsv.gz")
+reformatFragmentFiles("fragments_107_comments_removed.tsv.gz")
+
+# Inspect {reformatted} fragment files in current directory. 
+fragment_tsv <- list.files(pattern = "Reformat")
+
+
 
 inputFiles <- c(
-  "fragments_104copy.comments_removed-Reformat.tsv.gz", "fragments_105.tsv.gz", "fragments_106.tsv.gz", "fragments_107.tsv.gz")
+  "fragments_104copy.comments_removed-Reformat.tsv.gz", "fragments_105_comments_removed-Reformat.tsv.gz", "fragments_106_comments_removed-Reformat.tsv.gz", "fragments_107_comments_removed-Reformat.tsv.gz")
 names(inputFiles) <- c("fragments_104", "fragments_105", "fragments_106", "fragments_107")
 
 ## Setting default number of Parallel threads to 20. In Windows OS detection, parallel ArchRThread is set to 1. 
@@ -73,12 +79,15 @@ ArrowFiles <- createArrowFiles(
   minFrags = 1000, 
   addTileMat = TRUE,
   force = FALSE,
-  addGeneScoreMat = TRUE,
-  cleanTmp = FALSE,
-  nChunk = 1, 
-  threads = 1, 
-  subThreading = TRUE
+  addGeneScoreMat = TRUE
   )
 
 ArrowFiles # Inspect ArrowFiles object (character vector of ArrowFile paths). 
+
+projCELL1 <- ArchRProject(
+  ArrowFiles = ArrowFiles,
+  outputDirectory = "CELL1",
+  copyArrows = TRUE #Recommended so that if you modify Arrow files you have an original copy for later usage.
+ )
+
 
