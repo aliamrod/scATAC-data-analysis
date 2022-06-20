@@ -56,8 +56,7 @@ reformatFragmentFiles("fragments_107_comments_removed.tsv.gz")
 # Inspect {reformatted} fragment files in current directory. 
 fragment_tsv <- list.files(pattern = "Reformat")
 
-
-
+# Create ArchR object.
 inputFiles <- c(
   "fragments_104copy.comments_removed-Reformat.tsv.gz", "fragments_105_comments_removed-Reformat.tsv.gz", "fragments_106_comments_removed-Reformat.tsv.gz", "fragments_107_comments_removed-Reformat.tsv.gz")
 names(inputFiles) <- c("fragments_104", "fragments_105", "fragments_106", "fragments_107")
