@@ -88,10 +88,12 @@ ArrowFiles # Inspect ArrowFiles object (character vector of ArrowFile paths).
 # $ chmod +rwx fragments_105.arrow
 # $ chmod +rwx fragments_106.arrow
 # $ chmod +rwx fragments_107.arrow
+outputDirectory <- "/work/Neuroinformatics_Core/s204365/ATACSeq_0001/outputDirectory"
+arrowfilesDirectory <- "/work/Neuroinformatics_Core/s204365/ATACSeq_0001/outputDirectory/ArrowFiles"
 
 projCELL1 <- ArchRProject(
   ArrowFiles = ArrowFiles,
-  outputDirectory = "/work/Neuroinformatics_Core/s204365/ATACSeq_0001/outputDirectory",
+  outputDirectory = outputDirectory, 
   copyArrows = TRUE #Recommended so that if you modify Arrow files you have an original copy for later usage.
  )
 
