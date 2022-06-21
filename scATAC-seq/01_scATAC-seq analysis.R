@@ -83,6 +83,12 @@ ArrowFiles <- createArrowFiles(
 
 ArrowFiles # Inspect ArrowFiles object (character vector of ArrowFile paths). 
 
+# Change directory permissions to readable/writeable/executable permissions through Linux.
+# $ chmod +rwx fragments_104.arrow
+# $ chmod +rwx fragments_105.arrow
+# $ chmod +rwx fragments_106.arrow
+# $ chmod +rwx fragments_107.arrow
+
 projCELL1 <- ArchRProject(
   ArrowFiles = ArrowFiles,
   outputDirectory = "/work/Neuroinformatics_Core/s204365/ATACSeq_0001/outputDirectory",
