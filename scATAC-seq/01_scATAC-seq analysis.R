@@ -12,7 +12,7 @@
 # $ R
 
 # setwd(dir); specify a working directory. This may be from the root directory and transitioning up to current directory.
-metadata <- "/work/Neuroinformatics_Core/s204365/ATACSeq_0001/metadata")
+metadata <- "/work/Neuroinformatics_Core/s204365/ATACSeq_0001/metadata"
 setwd(metadata)
 
 # scATAC data analysis pipeline (integrates ArchR, v1.0.1)//Dependencies
@@ -96,8 +96,12 @@ arrowfilesDirectory <- "/work/Neuroinformatics_Core/s204365/ATACSeq_0001/outputD
 projCELL1 <- ArchRProject(
   ArrowFiles = ArrowFiles,
   outputDirectory = outputDirectory, 
-  copyArrows = TRUE #Recommended so that if you modify Arrow files you have an original copy for later usage.
+  copyArrows = TRUE #Recommended so that if you modify Arrow files you have an original copy for later usage + access TSS Enrichment Scores for each cell.
  )
+
+# Access the cell names associated with each cell using '$' accessor for direct access to ```cellColData```.
+head(projCELL1$cellNames)
+quantile(projCELL1$TSSEnrichment)
 
 # Add doublet score. 
 doubScores <- addDoubletScores(
@@ -110,7 +114,7 @@ doubScores <- addDoubletScores(
 
 # QC
 proj_CELL_1 <- projCELL1
-p <- ggPoint(
+p <- ggPoint( # ggPoint: a ggplot-based dot plot wrapper function
   x = df[,1],
   y = df[,2], 
   colorDensity = TRUE,
@@ -162,3 +166,5 @@ plotPDF(p1,p2,p3,p4, name = "QC-Sample-Statistics.pdf", ArchRProj = proj_CAD_1, 
 # Session Information.
 Sys.Date()
 sessionInfo()
+
+
