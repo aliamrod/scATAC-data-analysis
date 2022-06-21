@@ -12,7 +12,8 @@
 # $ R
 
 # setwd(dir); specify a working directory. This may be from the root directory and transitioning up to current directory.
-setwd('/work/Neuroinformatics_Core/s204365/ATACSeq_0001/metadata')
+metadata <- "/work/Neuroinformatics_Core/s204365/ATACSeq_0001/metadata")
+setwd(metadata)
 
 # scATAC data analysis pipeline (integrates ArchR, v1.0.1)//Dependencies
 if (!requireNamespace("devtools", quietly = TRUE)) install.packages("devtools")
