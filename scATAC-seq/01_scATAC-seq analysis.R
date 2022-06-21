@@ -79,6 +79,7 @@ ArrowFiles <- createArrowFiles(
   minFrags = 1000, 
   addTileMat = TRUE,
   force = FALSE,
+  subThreading = FALSE,
   addGeneScoreMat = TRUE
   )
 
