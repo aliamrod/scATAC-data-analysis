@@ -35,11 +35,12 @@ By default, ArchR utilizes the doublet parameters described in the ArchR manuscr
 a single step using addDoubletScore(). This adds the inferred doublet scores to each Arrow file and will take approximately 2-5 minutes per sample.
 For each sample in the ArrowFiles or ArchRProject provided, this function will independently assign inferred doublet information to each cell.
 This allows for removing strong heterotypic doublet-based clusters downstream. A doublet results from a droplet that contains two cells, causing the
-ATAC-seq data to be a mixture of the signal from each cell.
-    
-    
-    
-    
+ATAC-seq data to be a mixture of the signal from each cell. 
+
+ArchR reports the R^2 value for the UMAP projection for each Arrow file. If these R^2 values are much lower (i.e. less than 0.90), this often indiates that the cells within the Arrow file have little heterogeneity. This makes the accuracy of doublet calling worse because the majority of doublets would be "homotypic" - or a single droplet with two very similar cells. In these cases, *skip doublet prediction. Alternatively, one can set knnMethod = "LSI" and force = TRUE in order to perform projection in the LSI (Latent semantic indexing) method. Adding doublet scores will create plots in the "QualityControl" directory; there are 3 plots associated with each of your samples in this particular folder:
+- Doublet Enrichments: These represent the enrichment of simulated doublets nearby each single cell compared to the expected if we assume a uniform distribution. 
+- Doublet Scores: These represent the significance (-log10(binomial adjusted p-value)) of simulated doublets nearby each single cell compared to the expected if we assume a uniform distribution. This value is reportedly less consistent than the doublet enrichments and therefore use doublet enrichments for doublet identification.
+- Doublet Density: This represents the density of the simulated of the simulated doublet projections. This allows one to visualize where the synthetic doublets were located after projection into the 2-dimensional embedding.
 
 
 D. Creating an ArchRProject
