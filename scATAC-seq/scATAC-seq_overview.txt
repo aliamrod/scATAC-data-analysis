@@ -31,9 +31,11 @@ ArchR were designed for human data and it may be important to change the default
 
 
 C. Doublet inference with ArchR
-    By default, ArchR utilizes the doublet parameters described in the ArchR manuscript. In ArchR, doublet removal is performed in a single step using addDoubletScore(). This adds the inferred doublet scores to each Arrow file and will take approximately 2-5 minutes per sample. For each sample in the
-ArrowFiles or ArchRProject provided, this function will independently assign inferred doublet information to each cell. This allows for removing strong
-heterotypic doublet-based clusters downstream. A doublet results from a droplet that contains two cells, causing the ATAC-seq data to be a mixture of the signal from each cell.
+By default, ArchR utilizes the doublet parameters described in the ArchR manuscript. In ArchR, doublet removal is performed in
+a single step using addDoubletScore(). This adds the inferred doublet scores to each Arrow file and will take approximately 2-5 minutes per sample.
+For each sample in the ArrowFiles or ArchRProject provided, this function will independently assign inferred doublet information to each cell.
+This allows for removing strong heterotypic doublet-based clusters downstream. A doublet results from a droplet that contains two cells, causing the
+ATAC-seq data to be a mixture of the signal from each cell.
     
     
     
