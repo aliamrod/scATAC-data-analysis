@@ -99,8 +99,15 @@ projCELL1 <- ArchRProject(
  )
 
 # Access the cell names associated with each cell using '$' accessor for direct access to ```cellColData```.
-head(projCELL1$cellNames)
-quantile(projCELL1$TSSEnrichment)
+head(projCELL1$cellNames) 
+quantile(projCELL1$TSSEnrichment) # accesses the TSS Enrichment Scores for each cell. 
+
+# Subsetting ArchRProject by cells. We can subset the project numerically, for instance obtaining the first 200 cells in the project:
+idxPass <- which(projCELL1$TSSEnrichment >=8)
+cellsPass <- projCELL1$cellNames[idxPass]
+projCELL1[cellsPass, ]
+
+
 
 # Add doublet score. 
 doubScores <- addDoubletScores(
