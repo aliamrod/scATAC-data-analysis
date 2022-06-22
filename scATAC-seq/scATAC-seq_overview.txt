@@ -33,6 +33,7 @@ ArchR were designed for human data and it may be important to change the default
 C. Doublet inference with ArchR
 
 
+
 D. Creating an ArchRProject
 
 E. Dimensionality reduction with ArchR
