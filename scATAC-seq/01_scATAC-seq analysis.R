@@ -111,7 +111,7 @@ doubScores <- addDoubletScores(
   force = TRUE
   )
 
-# QC
+# QC *****************************************************************************
 proj_CELL_1 <- projCELL1
 p <- ggPoint( # ggPoint: a ggplot-based dot plot wrapper function
   x = df[,1],
@@ -126,26 +126,22 @@ p <- ggPoint( # ggPoint: a ggplot-based dot plot wrapper function
   ) + geom_hline(yintercept = 4, lty = "dashed") + geom_vline(xintercept = 3, lty = "dashed")
 plotPDF(p, name = "TSS-vs-Frags.pdf", ArchRProj = proj_CELL1, addDOC = FALSE)
 
-
-
-
- 
 p1 <- plotGroups(
-    ArchRProj = proj_CELL_1, 
-    groupBy = "Sample", 
-    colorBy = "cellColData", 
-    name = "TSSEnrichment",
-    plotAs = "ridges"
-   )
+  ArchRProj = proj_CELL_1, 
+  groupBy = "Sample", 
+  colorBy = "cellColData", 
+  name = "TSSEnrichment", 
+  plotAs = "ridges"
+  )
 p2 <- plotGroups(
-    ArchRProj = proj_CELL_1, 
-    groupBy = "Sample", 
-    colorBy = "cellColData", 
-    name = "TSSEnrichment",
-    plotAs = "violin",
-    alpha = 0.4,
-    addBoxPlot = TRUE
-   )
+  ArchRProj = proj_CELL_1,
+  groupBy = "Sample", 
+  colorBy = "cellColData", 
+  name = "TSSEnrichment", 
+  plotAs = "violin", 
+  alpha = 0.4, 
+  addBoxPlot = TRUE
+  )
 p3 <- plotGroups(
     ArchRProj = proj_CELL_1, 
     groupBy = "Sample", 
