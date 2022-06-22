@@ -38,17 +38,16 @@ addArchRGenome("mm10") # Mus musculus (house mouse) genome assembly
 # Each fragment is created by two separate transposition events, which create the two ends of the observed fragment. Each unique fragment may generate multiple
 # duplicate reads. These duplicate reads are collapsed into a single fragment record.
 
-# Utilize function, reformatFragmentFiles() to reformat CellRanger-derived fragment files for reading in createArrowFiles(). It will handle anomalies found that generate
-# errors in reading tabix bgzip'd fragment files.
-
-# reformatFragmentFiles(): This function will help in reformatting Fragment Files for reading in createArrowFiles. It will handle odd anomalies found that 
-# cause errors in reading tabix bgzip'd fragment files. 
-
 # $ zgrep -v "^#" fragments_104.tsv.gz | gzip -c > fragments_104.comments_removed.tsv.gz
 # $ zgrep -v "^#" fragments_105.tsv.gz | gzip -c > fragments_105.comments_removed.tsv.gz
 # $ zgrep -v "^#" fragments_106.tsv.gz | gzip -c > fragments_106.comments_removed.tsv.gz
 # $ zgrep -v "^#" fragments_107.tsv.gz | gzip -c > fragments_107.comments_removed.tsv.gz
 
+# Utilize function, reformatFragmentFiles() to reformat CellRanger-derived fragment files for reading in createArrowFiles(). It will handle anomalies found that generate
+# errors in reading tabix bgzip'd fragment files.
+
+# reformatFragmentFiles(): This function will help in reformatting Fragment Files for reading in createArrowFiles. It will handle odd anomalies found that 
+# cause errors in reading tabix bgzip'd fragment files. 
 reformatFragmentFiles("fragments_104_comments_removed.tsv.gz")
 reformatFragmentFiles("fragments_105_comments_removed.tsv.gz")
 reformatFragmentFiles("fragments_106_comments_removed.tsv.gz")
