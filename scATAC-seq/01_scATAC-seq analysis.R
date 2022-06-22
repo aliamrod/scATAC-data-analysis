@@ -125,6 +125,10 @@ p <- ggPoint( # ggPoint: a ggplot-based dot plot wrapper function
   
   ) + geom_hline(yintercept = 4, lty = "dashed") + geom_vline(xintercept = 3, lty = "dashed")
 plotPDF(p, name = "TSS-vs-Frags.pdf", ArchRProj = proj_CELL1, addDOC = FALSE)
+
+
+
+
  
 p1 <- plotGroups(
     ArchRProj = proj_CELL_1, 
@@ -159,6 +163,8 @@ p4 <- plotGroups(
     addBoxPlot = TRUE
    )
 plotPDF(p1,p2,p3,p4, name = "QC-Sample-Statistics.pdf", ArchRProj = proj_CAD_1, addDOC = FALSE, width = 4, height = 4)
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
