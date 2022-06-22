@@ -30,6 +30,17 @@ fragments. It is important to note that the actual numerica value of the TSS enr
 ArchR were designed for human data and it may be important to change the default thresholds when running createArrowFiles().
 
 
+C. Doublet inference with ArchR
+
+
+D. Creating an ArchRProject
+
+E. Dimensionality reduction with ArchR
+
+F. Clustering with ArchR
+
+G. Single-cell embeddings
+
 
 
 
