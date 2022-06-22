@@ -98,17 +98,6 @@ projCELL1 <- ArchRProject(
   copyArrows = TRUE #Recommended so that if you modify Arrow files you have an original copy for later usage + access TSS Enrichment Scores for each cell.
  )
 
-# Access the cell names associated with each cell using '$' accessor for direct access to ```cellColData```.
-head(projCELL1$cellNames) 
-quantile(projCELL1$TSSEnrichment) # accesses the TSS Enrichment Scores for each cell. 
-
-# Subsetting ArchRProject by cells. We can subset the project numerically, for instance obtaining the first 200 cells in the project:
-idxPass <- which(projCELL1$TSSEnrichment >=8)
-cellsPass <- projCELL1$cellNames[idxPass]
-projCELL1[cellsPass, ]
-
-
-
 # Add doublet score. 
 doubScores <- addDoubletScores(
   input = ArrowFiles, 
@@ -118,7 +107,35 @@ doubScores <- addDoubletScores(
   force = TRUE
   )
 
-# QC *****************************************************************************
+# Access the cell names associated with each cell using '$' accessor for direct access to ```cellColData```.
+head(projCELL1$cellNames) 
+quantile(projCELL1$TSSEnrichment) # accesses the TSS Enrichment Scores for each cell. 
+
+# Subsetting ArchRProject by cells. We can subset the project numerically, for instance obtaining the first 200 cells in the project:
+idxPass <- which(projCELL1$TSSEnrichment >=8)
+cellsPass <- projCELL1$cellNames[idxPass]
+projCELL1[cellsPass, ]
+
+bioNames <- gsub("_R2|R1|scATAC_", "", projCELL1$Sample)
+head(bioNames)
+projCELL1$bioNames <- bioNames
+bioNames <- bioNames[1:20]
+cellNames <- projCELL1$cellNames[1:20]
+projCELL1 <- addCellColData(ArchRProj = projCELL1, data = paste0(bioNames), 
+                            cells = cellNames, name = "bioNames2")
+getCellColData(projCELL1, select = c("bioNames", "bioNames2"))
+# ArchR provides the getCellColData() function to enable easy retrieval of metadata columns from an ArchRProject. For instance, we can retrieve a column name, 
+# such as the number of unique nuclear (i.e. non-mitochondrial) fragments per cell:
+df <- getCellColData(projCELL1, select = "nFrags")
+# Instead of selecting by a column by name, we can perform operations on a given column using its column name:
+df <- getCellColData(projCELL1, select = c("log10(nFrags)", "nFrags - 1"))
+
+# Plotting QC metric - log10(Unique Fragments) vs. TSS Enrichment Score. 
+# Repeating the examples above, we can easily obtain standard scATAC-seq metrics for quality control of individual cells. Here, we use TSS Enrichment Score, a
+# measure of signal-to-background in ATAC-seq data as well as the number of unique nuclear fragments (because cells with very few fragments do not have enough
+# data to confidently analyze). 
+df <- getCellColData(projCELL1, select = c("log10(nFrags)", "TSSEnrichment"))
+
 proj_CELL_1 <- projCELL1
 p <- ggPoint( # ggPoint: a ggplot-based dot plot wrapper function
   x = df[,1],
@@ -165,9 +182,9 @@ p4 <- plotGroups(
     alpha = 0.4,
     addBoxPlot = TRUE
    )
-plotPDF(p1,p2,p3,p4, name = "QC-Sample-Statistics.pdf", ArchRProj = proj_CAD_1, addDOC = FALSE, width = 4, height = 4)
+plotPDF(p1,p2,p3,p4, name = "QC-Sample-Statistics.pdf", ArchRProj = proj_CELL_1, addDOC = FALSE, width = 4, height = 4)
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
