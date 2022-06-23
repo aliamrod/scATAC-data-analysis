@@ -190,13 +190,18 @@ p1 <- plotFragmentSizes(ArchRProj = proj_CELL_1)
 p2 <- plotFragmentSizes(ArchRProj = proj_CELL_1)
 plotPDF(p1, p2, name = "QC-Sample-FragmentSizes-TSSProfile.pdf", ArchRProj = proj_CELL_1, addDOC = FALSE, width = 5, height = 5)
 
+# Filter cells.
+idxPass <- which(proj_CELL_2$TSSEnrichment >= 7 & proj_CELL_2$nFrags >= 10000)
+proj_CELL_2 <- filterDoublets(proj_CELL_1, filterRatio = 1.5)
 
 
 
+
+
+
+
+# ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    
-
-
 
 
 
