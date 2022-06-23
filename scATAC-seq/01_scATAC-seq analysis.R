@@ -59,7 +59,7 @@ reformat_files <- list.files(pattern = "Reformat")
 
 # Create ArchR object.
 inputFiles <- c(
-  "fragments_104copy.comments_removed-Reformat.tsv.gz", "fragments_105_comments_removed-Reformat.tsv.gz", "fragments_106_comments_removed-Reformat.tsv.gz", "fragments_107_comments_removed-Reformat.tsv.gz")
+  "fragments_104_comments_removed-Reformat.tsv.gz", "fragments_105_comments_removed-Reformat.tsv.gz", "fragments_106_comments_removed-Reformat.tsv.gz", "fragments_107_comments_removed-Reformat.tsv.gz")
 names(inputFiles) <- c("fragments_104", "fragments_105", "fragments_106", "fragments_107")
 
 ## Setting default number of Parallel threads to 20. In Windows OS detection, parallel ArchRThread is set to 1. 
