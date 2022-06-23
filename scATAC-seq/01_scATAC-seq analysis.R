@@ -182,9 +182,21 @@ p4 <- plotGroups(
     alpha = 0.4,
     addBoxPlot = TRUE
    )
+
+saveArchRProject(ArchRProj = projCELL1, outputDirectory = outputDirectory, load = FALSE)
 plotPDF(p1,p2,p3,p4, name = "QC-Sample-Statistics.pdf", ArchRProj = proj_CELL_1, addDOC = FALSE, width = 4, height = 4)
 
-# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+p1 <- plotFragmentSizes(ArchRProj = proj_CELL_1)
+p2 <- plotFragmentSizes(ArchRProj = proj_CELL_1)
+plotPDF(p1, p2, name = "QC-Sample-FragmentSizes-TSSProfile.pdf", ArchRProj = proj_CELL_1, addDOC = FALSE, width = 5, height = 5)
+
+
+
+
+    
+    
+
+
 
 
 
