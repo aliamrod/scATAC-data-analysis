@@ -52,3 +52,7 @@ genome(annotations) <- "mm10"
 Annotation(brain) <- annotations
 
 
+plotPDF(g1,g2, name = "Nucleosome-Signal.pdf", addDOC = FALSE, width = 5, height = 5)
+
+
+
