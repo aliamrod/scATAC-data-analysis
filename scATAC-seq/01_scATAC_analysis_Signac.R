@@ -16,7 +16,7 @@ library(biovizBase)
 library(GenomeInfoDb)
 library(EnsDb.Mmusculus.v79)
 
-# To plot
+# To plot.
 library(ggplot2)
 library(patchwork)
 library(stringr)
@@ -26,7 +26,7 @@ set.seed(1)
 # Read ATAC data.
 counts <- Read10X_h5(filename = "filtered_peak_bc_matrix_107.h5")
 
-# Read metadatal
+# Read metadata.
 metadata <- read.csv(file = "singlecell_107.csv", 
                      header = TRUE, 
                      row.names = 1)
