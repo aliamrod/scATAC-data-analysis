@@ -120,8 +120,8 @@ projCELL1[cellsPass, ]
 bioNames <- gsub("_R2|R1|scATAC_", "", projCELL1$Sample)
 head(bioNames)
 projCELL1$bioNames <- bioNames
-bioNames <- bioNames[1:20]
-cellNames <- projCELL1$cellNames[1:20]
+bioNames <- bioNames[1:10]
+cellNames <- projCELL1$cellNames[1:10]
 projCELL1 <- addCellColData(ArchRProj = projCELL1, data = paste0(bioNames), 
                             cells = cellNames, name = "bioNames2")
 getCellColData(projCELL1, select = c("bioNames", "bioNames2"))
@@ -143,13 +143,13 @@ p <- ggPoint( # ggPoint: a ggplot-based dot plot wrapper function
   y = df[,2], 
   colorDensity = TRUE,
   continuousSet = "sambaNight", 
-  xlabel = "Log10UniqueFragments", 
+  xlabel = "Log10 Unique Fragments", 
   ylabel = "TSS Enrichment", 
   xlim = c(log10(500), quantile(df[,1], probs = 0.99)),
   ylim = c(0, quantile(df[,2], probs = 0.99))
   
   ) + geom_hline(yintercept = 4, lty = "dashed") + geom_vline(xintercept = 3, lty = "dashed")
-plotPDF(p, name = "TSS-vs-Frags.pdf", ArchRProj = proj_CELL1, addDOC = FALSE)
+plotPDF(p, name = "TSS-vs-Frags.pdf", ArchRProj = proj_CELL_1, addDOC = FALSE)
 
 p1 <- plotGroups(
   ArchRProj = proj_CELL_1, 
@@ -191,20 +191,144 @@ p1 <- plotFragmentSizes(ArchRProj = proj_CELL_1)
 p2 <- plotFragmentSizes(ArchRProj = proj_CELL_1)
 plotPDF(p1, p2, name = "QC-Sample-FragmentSizes-TSSProfile.pdf", ArchRProj = proj_CELL_1, addDOC = FALSE, width = 5, height = 5)
 
-# Filter cells.
+# Filter cells.############
 idxPass <- which(proj_CELL_2$TSSEnrichment >= 7 & proj_CELL_2$nFrags >= 10000)
 proj_CELL_2 <- filterDoublets(proj_CELL_1, filterRatio = 1.5)
 
+p <- ggPoint(
+  x = df2[,"log10(nFrags)"], 
+  y = df2[, "TSSEnrichment"],
+  colorDensity = TRUE, 
+  continuousSet = "sambaNight", 
+  xlabel = "Log10 Unique Fragments", 
+  ylabel = "TSS Enrichment", 
+  xlim = c(3, quantile(df2[, "log10(nFrags)"], probs = 0.99)), 
+  ylim = c(4, quantile(df2[, "TSSEnrichment"], probs = 0.99))
+  ) + geom_hline(yintercept = 7, lty = "dashed") + geom_vline(xintercept = 4, lty = "dashed")
+plotPDF(p, name = "TSS-vs-Frags_cutoff.pdf", ArchRProj = proj_CELL_2, addDOC = FALSE)
+  
 
+#####
+proj_CELL_2 <- addIterativeLSI(
+  ArchRProj = proj_CELL_2,
+  useMatrix = "TileMatrix", 
+  name = "IterativeLSI", 
+  iterations = 2, 
+  clusterParams = list(
+    resolution = c(0.2), 
+    sampleCells = 10000, 
+    n.start = 10
+    ), 
+  varFeatures = 25000,
+  dimsToUse = 1:30,
+  seed = 1, force = T
+)
 
+# Basic Clustering.
+proj_CELL_2 <- addClusters(
+  input = proj_CELL_2,
+  reducedDims = "IterativeLSI", 
+  method = "Seurat", 
+  name = "Clusters"
+  resolution = 0.8,
+  force = T, seed = 1
+  )
 
+# UMAP Embedding. 
+proj_CELL_2 <- addUMAP(
+  ArchRProj = proj_CELL_2, 
+  reducedDims = "IterativeLSI", 
+  name = "UMAP", 
+  nNeighbors = 30, 
+  minDist = 0.5, 
+  metric = "cosine",
+  force = T
+)
 
+p1 <- plotEmbedding(ArchRProj = proj_CELL_2, colorBy = "cellColData", name = "Sample", embedding = "UMAP")
+p2 <- plotEmbedding(ArchRProj = proj_CELL_2, colorBy = "cellColData", name = "Clusters", embedding = "UMAP")
+plotPDF(p1,p2, name = "Plot-UMAP-Sample-Clusters_LSI.pdf", ArchRProj = proj_CELL_2, addDOC = FALSE, width = 5, height = 5)
 
+# QC score projected onto UMAP. 
+## **BUG --> p1 <- plotEmbedding(ArchRProj = proj_CELL_2, colorBy = "cellColData", name = "DoubletEnrichment", embedding = "UMAP")
+##p2 <- plotEmbedding(ArchRProj = proj_CELL_2, colorBy = "cellColData", name = "DoubletScore", embedding = "UMAP")
+p3 <- plotEmbedding(ArchRProj = proj_CELL_2, colorBy = "cellColData", name = "PromoterRatio", embedding = "UMAP")
+p4 <- plotEmbedding(ArchRProj = proj_CELL_2, colorBy = "cellColData", name = "NucleosomeRatio", embedding = "UMAP")
+p5 <- plotEmbedding(ArchRProj = proj_CELL_2, colorBy = "cellColData", name = "TSSEnrichment", embedding = "UMAP")
+p6 <- plotEmbedding(ArchRProj = proj_CELL_2, colorBy = "cellColData", name = "nFrags", embedding = "UMAP")
+plotPDF(p3,p4,p5,p6, name = "Plot-UMAP-Sample-QC_LSI.pdf", ArchRProj = proj_CELL_2, addDOC = FALSE, width = 5, height = 5)
 
-# ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+# Check Batch Effect. 
+proj_CELL_2 <- addHarmony(
+    ArchRProj = proj_CELL_2,
+    reducedDims = "IterativeLSI",
+    name = "Harmony",
+    groupBy = "Sample",force=T
+)
 
+proj_CELL_2_HAR <- addClusters(
+  input = proj_CELL_2, 
+  reducedDims = "Harmony", 
+  method = "Seurat", 
+  name = "Clusters", 
+  resolution = 0.8, 
+  force= T, seed=1
+  )
 
+cM <- confusionMatrix(paste0(proj_CELL_2$Clusters), paste0(proj_CELL_2$Sample))
+cM <- cM / Matrix::rowSums(cM)
+p <- pheatmap::pheatmap(
+    mat = as.matrix(cM), 
+    color = paletteContinuous("whiteBlue"), 
+    border_color = "black"
+)
+plotPDF(p, name = "confusionMap_heatmap_LSI.pdf", ArchRProj = proj_CELL_2, addDOC = FALSE)
+
+cM <- confusionMatrix(paste0(proj_CELL_2_HAR$Clusters), paste0(proj_CELL_2_HAR$Sample))
+cM <- cM / Matrix::rowSums(cM)
+p2 <- pheatmap::pheatmap(
+    mat = as.matrix(cM), 
+    color = paletteContinuous("whiteBlue"), 
+    border_color = "black"
+)
+
+plotPDF(p, name = "confusionMap_heatmap_LSI.pdf", ArchRProj = proj_CELL_2, addDOC = FALSE)
+plotPDF(p2, name = "confusionMap_heatmap_HAR.pdf", ArchRProj = proj_CELL_2, addDOC = FALSE)
+
+p1 <- plotEmbedding(ArchRProj = proj_CELL_2_HAR, colorBy = "cellColData", name = "Sample", embedding = "UMAP")
+p2 <- plotEmbedding(ArchRProj = proj_CELL_2_HAR, colorBy = "cellColData", name = "Clusters", embedding = "UMAP")
+plotPDF(p1,p2, name = "Plot-UMAP-Clusters_HAR.pdf", ArchRProj = proj_CELL_2, addDOC = FALSE, width = 5, height = 5)
+
+# Gene score with ArchR default method
+proj_CELL_2<-addGeneScoreMatrix(proj_CELL_2,force=TRUE)
+proj_CELL_2 <- addImputeWeights(proj_CELL_2,seed=1)
+markersGS <- getMarkerFeatures(
+    ArchRProj = proj_CAD_2, 
+    useMatrix = "GeneScoreMatrix", 
+    groupBy = "Clusters",
+    bias = c("TSSEnrichment", "log10(nFrags)"),
+    testMethod = "wilcoxon"
+)
+
+# Cluster specific genes.
+markerList <- getMarkers(markersGS, cutOff = "FDR <= 0.01 & Log2FC >= 1")
+
+# Knowledge-based marker genes for different cell types
+DSMCmarker <- c("MYOCD","SRF","TEAD3","TEAD4","ACTA2","MYH11","TAGLN","LMOD1","CNN1","TPM2","MYL9")
+MSMCmarker <- c("TCF21","KLF4","FN1","LUM","TNFRSF11B","BGN")
+Emarker <- c("KLF2","PECAM1","CLDN5","PLVAP","ACKR1","EGFL7", "NFKB1","NFKB2","VCAM1","SELE")
+Tmarker <- c("CD8A","TCF7","RUNX3","TBX21","PRDM1")
+Macrophage <- c("CD14","CD36","CD68","CD86","CSF1R","NR1H3","NR1H2","RXRA","RXRB","RXRG","IL1B","CX3CR1")
+PericyteMarker <- c("NOTCH3","PDGFRB","RGS5","CSPG4")
+Osteochondrogenic <- c("SOX9","RUNX2","BMP2","ALPL")
+PotentialSMC <- c("CARMN","PRDM16")
+driverSMC <- c("LGALS3","FN1","TNFRSF11B","COL1A1","COL4A1","COL4A2","COL6A3")
+useMKG <- intersect(c(DSMCmarker,MSMCmarker,Emarker,Tmarker,Macrophage,PericyteMarker,Osteochondrogenic,PotentialSMC,driverSMC), uniq_symbol)
+markerGenes <- useMKG#c(DSMCmarker,MSMCmarker,Emarker,Tmarker)
+
+# integration with scRNAseq data
+seRNA <- readRDS("scRNA_PC10.rds");
+celltype_meta <- read.table("PC10_celltype_assignment.txt",row.names=1,header=T)
 
 # Session Information.
 Sys.Date()
