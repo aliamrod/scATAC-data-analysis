@@ -27,14 +27,14 @@ set.seed(1)
 counts <- Read10X_h5(filename = "filtered_peak_bc_matrix_107.h5")
 
 # Read metadatal
-metadata <- read.csv(file = "singlecell_104.csv", 
+metadata <- read.csv(file = "singlecell_107.csv", 
                      header = TRUE, 
                      row.names = 1)
 # Create a chromatin assay utilizing the count matrix.
 brain_assay <- CreateChromatinAssay(counts = counts,
                                     sep = c(":", "-"), 
                                     genome = "mm10", 
-                                    fragments = "fragments_104.tsv.gz", 
+                                    fragments = "fragments_107.tsv.gz", 
                                     min.cells = 1)
 # The ChromatinAssay class extends the standard Seurat Assay class and adds several additional slots for data useful for the analysis of single-cell chromatin datasets.
 # Create Seurat Object.
