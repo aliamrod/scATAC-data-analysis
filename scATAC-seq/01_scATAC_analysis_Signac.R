@@ -51,8 +51,17 @@ genome(annotations) <- "mm10"
 # Add the gene information to the object.
 Annotation(brain) <- annotations
 
+#####ERROR#########
+# plotPDF(g1,g2, name = "Nucleosome-Signal.pdf", addDOC = FALSE, width = 5, height = 5)
 
-plotPDF(g1,g2, name = "Nucleosome-Signal.pdf", addDOC = FALSE, width = 5, height = 5)
+# compute nucleosome signal score per cell
+brain <- NucleosomeSignal(object = brain)
 
+# Compute TSS enrichment score per cell.
+brain <- TSSEnrichment(object = brain, fast = FALSE)
+
+# Add blacklist ratio and fraction of reads in peaks
+brain$pct_reads_in_peaks <- brain$peak_region_fragments / brain$passed_filters * 100
+brain$blacklist_ratio <- brain$blacklist_region_fragments / brain$peak_region_fragments
 
 
