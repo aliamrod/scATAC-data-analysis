@@ -24,7 +24,7 @@ library(repr)
 set.seed(1)
 
 # Read ATAC data.
-counts <- Read10X_h5("filtered_peak_bc_matrix_104.h5")
+counts <- Read10X_h5(filename = "filtered_peak_bc_matrix_107.h5")
 
 # Read metadatal
 metadata <- read.csv(file = "singlecell_104.csv", 
@@ -63,5 +63,30 @@ brain <- TSSEnrichment(object = brain, fast = FALSE)
 # Add blacklist ratio and fraction of reads in peaks
 brain$pct_reads_in_peaks <- brain$peak_region_fragments / brain$passed_filters * 100
 brain$blacklist_ratio <- brain$blacklist_region_fragments / brain$peak_region_fragments
+######
 
+
+
+counts <- Read10X_h5(filename = "../vignette_data/atac_v1_pbmc_10k_filtered_peak_bc_matrix.h5")
+metadata <- read.csv(
+  file = "../vignette_data/atac_v1_pbmc_10k_singlecell.csv",
+  header = TRUE,
+  row.names = 1
+)
+
+chrom_assay <- CreateChromatinAssay(
+  counts = counts,
+  sep = c(":", "-"),
+  genome = 'hg19',
+  fragments = '../vignette_data/atac_v1_pbmc_10k_fragments.tsv.gz',
+  min.cells = 10,
+  min.features = 200
+)
+
+pbmc <- CreateSeuratObject(
+  counts = chrom_assay,
+  assay = "peaks",
+  meta.data = metadata
+)
+#####
 
