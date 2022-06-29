@@ -18,6 +18,7 @@ setwd(metadata)
 # scATAC data analysis pipeline (integrates ArchR, v1.0.1)//Dependencies
 if (!requireNamespace("devtools", quietly = TRUE)) install.packages("devtools")
 if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
+BiocManager::install("scran")
 install.packages("dplyr")
 
 library(devtools)
