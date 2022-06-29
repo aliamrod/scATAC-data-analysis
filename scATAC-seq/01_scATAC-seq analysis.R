@@ -24,6 +24,7 @@ library(devtools)
 library(BiocManager)
 library(dplyr)
 library(Seurat)
+library(Signac)
 
 
 # install ArchR
