@@ -88,5 +88,33 @@ pbmc <- CreateSeuratObject(
   assay = "peaks",
   meta.data = metadata
 )
-#####
 
+
+#NucleosomeSignal
+brain <- NucleosomeSignal(object = brain)
+
+#Cells which are outliers for the mononucleosomal/ nucleosome-free ratio have different banding patterns. 
+#The remaining cells exhibit a pattern that is typical for a successful ATAC-seq experiment.
+options(repr.plot.width=15, repr.plot.height=4)
+boxplot(brain$nucleosome_signal, main = "Nucleosome Signal", horizontal = TRUE)
+axis(1, at=seq(0,40,5)) #change numeration in axis
+abline(v=4, col = "Red", lty = 5, lwd = 3) #add line at 4 
+
+
+##BUG****
+options(repr.plot.width=10, repr.plot.height=5)
+brain$nucleosome_group <- ifelse(brain$nucleosome_signal > 4, 'NS > 4', 'NS < 4')
+FragmentHistogram(object = brain, group.by = 'nucleosome_group', region = 'chr1-1-10000000')
+
+
+
+# Visualize peak_count_per_cell
+options(repr.plot.width=20, repr.plot.height=8)
+par(mfrow=c(2,4))
+hist(brain@meta.data[["nucleosome_signal"]], breaks = 50) 
+# hist(brain@meta.data[["TSS.enrichment"]], breaks = 50)
+hist(brain@meta.data[["peak_region_fragments"]], breaks = 50)
+hist(brain@meta.data[["pct_reads_in_peaks"]], breaks = 50)
+hist(brain@meta.data[["blacklist_ratio"]], breaks = 50)
+hist(brain@meta.data[["nCount_ATAC"]], breaks = 50)
+hist(brain@meta.data[["nFeature_ATAC"]], breaks = 50)
