@@ -7,6 +7,7 @@
 # $ module load gcc/8.3.0
 # $ module load htslib
 # $ module load gsl/2.4
+# $ module load macs/2.1.2
 
 # Open R/4.1.1-gccmkl module.
 # $ R
@@ -316,6 +317,34 @@ markersGS <- getMarkerFeatures(
 markerList <- getMarkers(markersGS, cutOff = "FDR <= 0.01 & Log2FC >= 1")
 
 # Knowledge-based marker genes for different cell types
+Astrocytes <- c("Aqp4")
+OPCmarker <- c("Olig1")
+Microglia <- c("Cxcr1", "Cd11b")
+Endothelial <- c("Flt2")
+Glutaminergic <- c("Slc17a7")
+Interneuron <- c("Chat", "Npy")
+Diffmarker <- c("Sox4", "Sox11") # neurogenic and neural differentiation markers
+ProliferatingCells <- c("Mki67")
+NeuralProgenitors1 <- c("Ascl1")
+NeuralProgenitors2 <- c("Dlx2", "Mash1", "Gsh2", "Ebf1", "Olf1") # neural progenitors derived from the lateral ganglionic eminence (D1x2); the striatum-enriched genes
+                                                                 # comprise at least two classes of genes with distinct function. One class of genes are transcriptional
+                                                                 # reguators that control neuronal development, including the Dlx family, Mash1, Gsh1, Ebf1/Olf1***
+iSPNIdentification <- c("Spn9") 
+SPNSubtypes <- c("Drd1", "Drd2")
+MatureSPNMarker <- c("Ppp1r1b")
+dSPNs <- c("Drd1", "Tac1")
+iSPNs <- c("Drd2", "Penk")
+eSPNs <- c("Casz1")
+
+
+
+#he striatum-enriched genes comprise at least two classes of genes with distinct function. One class of genes are 
+#transcriptional regulators that control neuronal development, including the Dlx family, Mash1, Gsh2, Ebf1/Olf1, 
+#Six3, Isl1, Foxp1, and Foxp2 (5–11). The other class of genes are signaling transduction molecules related to neurotransmission, 
+#including dopamine D1 and D2 receptors; the G protein, Golf; the adenylyl cyclase type V; the serine/threonine protein phosphatase-1 inhibitor, 
+#DARPP-32; the striatal-enriched tyrosine phosphatase, STEP; and the Rap guanine nucleotide exchange factor, CalDAG-GEF I (12–16). 
+#The enrichment of these signaling molecules in the striatum constitutes parts of the specificity of neurotransmission in the striatal system.
+
 DSMCmarker <- c("MYOCD","SRF","TEAD3","TEAD4","ACTA2","MYH11","TAGLN","LMOD1","CNN1","TPM2","MYL9")
 MSMCmarker <- c("TCF21","KLF4","FN1","LUM","TNFRSF11B","BGN")
 Emarker <- c("KLF2","PECAM1","CLDN5","PLVAP","ACKR1","EGFL7", "NFKB1","NFKB2","VCAM1","SELE")
@@ -325,6 +354,8 @@ PericyteMarker <- c("NOTCH3","PDGFRB","RGS5","CSPG4")
 Osteochondrogenic <- c("SOX9","RUNX2","BMP2","ALPL")
 PotentialSMC <- c("CARMN","PRDM16")
 driverSMC <- c("LGALS3","FN1","TNFRSF11B","COL1A1","COL4A1","COL4A2","COL6A3")
+
+
 useMKG <- intersect(c(DSMCmarker,MSMCmarker,Emarker,Tmarker,Macrophage,PericyteMarker,Osteochondrogenic,PotentialSMC,driverSMC), uniq_symbol)
 markerGenes <- useMKG#c(DSMCmarker,MSMCmarker,Emarker,Tmarker)
 
