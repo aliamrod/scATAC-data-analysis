@@ -27,7 +27,11 @@ library(BiocManager)
 library(dplyr)
 library(Seurat)
 library(Signac)
-
+library(chromVAR)
+library(motifmatchr)
+library(Matrix)
+library(SummarizedExperiment)
+library(BiocParallel)
 
 # install ArchR
 devtools::install_github("GreenleafLab/ArchR", ref="master", repos = BiocManager::repositories())
