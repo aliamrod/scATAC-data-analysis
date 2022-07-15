@@ -69,7 +69,7 @@ inputFiles <- c(
   "fragments_104_comments_removed-Reformat.tsv.gz", "fragments_105_comments_removed-Reformat.tsv.gz", "fragments_106_comments_removed-Reformat.tsv.gz", "fragments_107_comments_removed-Reformat.tsv.gz")
 names(inputFiles) <- c("fragments_104", "fragments_105", "fragments_106", "fragments_107")
 
-## Setting default number of Parallel threads to 20. In Windows OS detection, parallel ArchRThread is set to 1. 
+## Setting default number of Parallel threads to 20 (for MacOS). In Windows OS detection, parallel ArchRThread is set to 1. 
 addArchRThreads(threads = 1) 
 
 # Create ArchR object.
@@ -144,6 +144,7 @@ df <- getCellColData(projCELL1, select = c("log10(nFrags)", "nFrags - 1"))
 # data to confidently analyze). 
 df <- getCellColData(projCELL1, select = c("log10(nFrags)", "TSSEnrichment"))
 
+# Basic QC.
 proj_CELL_1 <- projCELL1
 p <- ggPoint( # ggPoint: a ggplot-based dot plot wrapper function
   x = df[,1],
@@ -202,6 +203,8 @@ plotPDF(p1, p2, name = "QC-Sample-FragmentSizes-TSSProfile.pdf", ArchRProj = pro
 idxPass <- which(proj_CELL_2$TSSEnrichment >= 7 & proj_CELL_2$nFrags >= 10000)
 proj_CELL_2 <- filterDoublets(proj_CELL_1, filterRatio = 1.5)
 
+df2 <- getCellColData(proj_CELL_2, select = c("log10(nFrags)", "TSSEnrichment")
+
 p <- ggPoint(
   x = df2[,"log10(nFrags)"], 
   y = df2[, "TSSEnrichment"],
@@ -213,7 +216,7 @@ p <- ggPoint(
   ylim = c(4, quantile(df2[, "TSSEnrichment"], probs = 0.99))
   ) + geom_hline(yintercept = 7, lty = "dashed") + geom_vline(xintercept = 4, lty = "dashed")
 plotPDF(p, name = "TSS-vs-Frags_cutoff.pdf", ArchRProj = proj_CELL_2, addDOC = FALSE)
-  
+
 
 #####
 proj_CELL_2 <- addIterativeLSI(
@@ -366,6 +369,15 @@ markerGenes <- useMKG#c(DSMCmarker,MSMCmarker,Emarker,Tmarker)
 # integration with scRNAseq data
 seRNA <- readRDS("scRNA_PC10.rds");
 celltype_meta <- read.table("PC10_celltype_assignment.txt",row.names=1,header=T)
+                      
+                      
+                      ///////////////////////////////////////////////////////////////////////////
+                      
+
+
+              
+                      //////////////////////////////////////////////////////////////////////////
+                     
 
 # Session Information.
 Sys.Date()
