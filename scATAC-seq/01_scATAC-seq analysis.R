@@ -8,9 +8,10 @@
 # $ module load htslib
 # $ module load gsl/2.4
 # $ module load macs/2.1.2
+# $ module load rstudio-desktop/1.1.456
 
 # Open R/4.1.1-gccmkl module.
-# $ R
+# $ rstudio
 
 # setwd(dir); specify a working directory. This may be from the root directory and transitioning up to current directory.
 metadata <- "/work/Neuroinformatics_Core/s204365/ATACSeq_0001/metadata"
